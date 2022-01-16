@@ -10,6 +10,7 @@ function empty(...values) {
     });
 }
 exports.empty = empty;
+//Value with spaces validator
 function hasSpaces(...values) {
     const whitespacesRegex = /\s/;
     values.forEach(value => {
@@ -19,6 +20,7 @@ function hasSpaces(...values) {
     });
 }
 exports.hasSpaces = hasSpaces;
+//Special Chars validator
 function specialChars(...values) {
     const specialcharsRegex = /[^a-z0-9 \-_@\.]/i;
     values.forEach(value => {

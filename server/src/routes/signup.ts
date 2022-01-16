@@ -5,6 +5,9 @@ import * as validation from "../validation";
 import {dbmodels} from "../database";
 const userModel = dbmodels.User;
 
+//Password encrypter
+import * as bcrypt from "bcrypt";
+
 //rrn is req, res & next
 function checkInput(rrn: any){
 
@@ -51,6 +54,10 @@ export default async function signup (rrn: any){
 	//Saving params
 	const {name, username, email, gender, age, password} = rrn.req.body;
 
+	//Encrypting password
+	const saltRounds = 10;
+	const hashedPassword = await bcrypt.hash(password, saltRounds);
+
 	//Storing the user in the database
 	const user = userModel.build({
 		name: name,
@@ -58,7 +65,7 @@ export default async function signup (rrn: any){
 		email: email,
 		gender: gender,
 		age: age,
-		password: password
+		password: hashedPassword
 	});
 
 	user.save()

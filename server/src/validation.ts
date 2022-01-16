@@ -7,6 +7,7 @@ export function empty(...values:any[]):void {
 	});
 }
 
+//Value with spaces validator
 export function hasSpaces(...values:any[]): void{
 	const whitespacesRegex:RegExp = /\s/;
 
@@ -17,6 +18,7 @@ export function hasSpaces(...values:any[]): void{
 	})
 }
 
+//Special Chars validator
 export function specialChars(...values:any[]):void {
 	const specialcharsRegex:RegExp = /[^a-z0-9 \-_@\.]/i;
 

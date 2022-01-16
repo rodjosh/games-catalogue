@@ -33,6 +33,8 @@ const validation = __importStar(require("../validation"));
 //Importing database models
 const database_1 = require("../database");
 const userModel = database_1.dbmodels.User;
+//Password encrypter
+const bcrypt = __importStar(require("bcrypt"));
 //rrn is req, res & next
 function checkInput(rrn) {
     const { name, age, username, email, gender, password } = rrn.req.body;
@@ -62,6 +64,9 @@ function signup(rrn) {
         checkInput(rrn);
         //Saving params
         const { name, username, email, gender, age, password } = rrn.req.body;
+        //Encrypting password
+        const saltRounds = 10;
+        const hashedPassword = yield bcrypt.hash(password, saltRounds);
         //Storing the user in the database
         const user = userModel.build({
             name: name,
@@ -69,7 +74,7 @@ function signup(rrn) {
             email: email,
             gender: gender,
             age: age,
-            password: password
+            password: hashedPassword
         });
         user.save()
             .then(() => {
