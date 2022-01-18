@@ -21,6 +21,9 @@ api.use(express_1.default.json());
 api.post('/signup', (req, res, next) => {
     routes_1.default.signup({ req, res, next });
 });
+api.post('/login', (req, res, next) => {
+    routes_1.default.login({ req, res, next });
+});
 //Implementing routing
 app.use('/api', api);
 //Error handling

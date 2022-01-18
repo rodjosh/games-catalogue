@@ -1,17 +1,17 @@
 Application requirements - Server Side:
 
-- Data validation
+0 - Data validation
 
-- Login and Signup
+/ - Login and Signup
 
-- Two types of users, clients and admins
+  - Two types of users, clients and admins
 
-- Anonymous view
+  - Anonymous view
 
-- Retrieve games list with filters like category, year and platform
+  - Retrieve games list with filters like category, year and platform
 
-- Update games records with new information
+  - Update games records with new information
 
-- Add new games with information from igdb api
+  - Add new games with information from igdb api
 
-- Add reviews to games
+  - Add reviews to games

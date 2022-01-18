@@ -24,6 +24,10 @@ api.post('/signup', (req, res, next)=>{
 	routes.signup({req, res, next});
 })
 
+api.post('/login', (req, res, next)=>{
+	routes.login({req, res, next});
+})
+
 //Implementing routing
 app.use('/api', api);
 
