@@ -32,49 +32,46 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const validation = __importStar(require("../validation"));
 //Importing database models
 const database_1 = require("../database");
-const userModel = database_1.dbmodels.User;
-//Password encrypter
-const bcrypt = __importStar(require("bcrypt"));
+const reviewsModel = database_1.dbmodels.Review;
 //rrn is req, res & next
 function checkInput(rrn) {
-    const { username, password } = rrn.req.body;
+    const { author, rate, description, game_id } = rrn.req.body;
     //Validation for wrong types
     validation.wrongType(rrn.req.body, {
-        username: "string",
-        password: "string"
+        author: "string",
+        rate: "number",
+        description: "string",
+        game_id: "number"
     });
-    //Validation for empty values
-    validation.empty(username, password);
-    //Validation for spaces
-    validation.hasSpaces(username);
+    /*
+    Note: empty integers field will fall on wrongtype due to being
+    empty got assign "undefined"
+    */
+    //Validation for empty values (Only strings)
+    validation.empty(author, description);
     //Validation for special chars
-    validation.specialChars(username);
+    validation.specialChars(author);
 }
-function signup(rrn) {
+function addReview(rrn) {
     return __awaiter(this, void 0, void 0, function* () {
         //Check user input to be valid
         if (validation.asyncError(checkInput, rrn))
             return;
         //Saving params
-        const { username, password } = rrn.req.body;
-        //Retrieven users that matchs username
-        const user = yield userModel.findOne({
-            where: {
-                username: username
-            }
+        const { author, rate, description, game_id } = rrn.req.body;
+        //Storing the user in the database
+        const review = reviewsModel.build({
+            author: author,
+            rate: rate,
+            description: description,
+            game_id: game_id
         });
-        //If no users then username doesn't exists
-        if (!user)
-            return rrn.next(new Error("User doesn't exist"));
-        //Comparing passwords
-        const hashedPassword = user.get('password');
-        const result = yield bcrypt.compare(password, hashedPassword);
-        //If passwords match then send success message
-        if (result) {
-            return rrn.res.send('Successfully logged');
-        }
-        //If passwords doesn't match then send error message
-        rrn.next(new Error('Password doesn\'t match'));
+        review.save()
+            .then(() => {
+            rrn.res.send("Review successfully added");
+        }).catch((e) => {
+            rrn.next(e);
+        });
     });
 }
-exports.default = signup;
+exports.default = addReview;

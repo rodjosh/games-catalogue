@@ -20,11 +20,6 @@ export default async function start(){
 
 export const dbmodels = {
 	User: sequelize.define('User', {
-		role: {
-			type: DataTypes.STRING,
-			allowNull: false,
-			defaultValue: "user"
-		},
 		name: {
 			type: DataTypes.STRING,
 			allowNull: false
@@ -48,6 +43,26 @@ export const dbmodels = {
 		},
 		password: {
 			type: DataTypes.STRING,
+			allowNull: false
+		}
+	}),
+
+
+	Review: sequelize.define('Review', {
+		author: {
+			type: DataTypes.STRING,
+			allowNull: false
+		},
+		rate: {
+			type: DataTypes.FLOAT,
+			allowNull: false
+		},
+		description: {
+			type: DataTypes.TEXT,
+			allowNull: false
+		},
+		game_id: {
+			type: DataTypes.INTEGER,
 			allowNull: false
 		}
 	})

@@ -9,7 +9,7 @@ const userModel = dbmodels.User;
 import * as bcrypt from "bcrypt";
 
 //rrn is req, res & next
-function checkInput(rrn: any){
+function checkInput(rrn: validation.RRN){
 
 	interface User {
 		username: string,
@@ -34,9 +34,9 @@ function checkInput(rrn: any){
 	validation.specialChars(username);
 }
 
-export default async function signup (rrn: any){
+export default async function signup (rrn: validation.RRN){
 	//Check user input to be valid
-	checkInput(rrn);
+	if (validation.asyncError(checkInput, rrn)) return;
 
 	//Saving params
 	const {username, password} = rrn.req.body;

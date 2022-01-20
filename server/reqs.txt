@@ -2,16 +2,14 @@ Application requirements - Server Side:
 
 0 - Data validation
 
-/ - Login and Signup
+0 - Login and Signup (Pending session mechanism)
 
-  - Two types of users, clients and admins
+* - Most Rated Videogames
 
-  - Anonymous view
+* - 4 Videogames genres
 
-  - Retrieve games list with filters like category, year and platform
+* - Create a token for every client
 
-  - Update games records with new information
+* - Search games lists with filters using client's token
 
-  - Add new games with information from igdb api
-
-  - Add reviews to games
+* - Add reviews to games

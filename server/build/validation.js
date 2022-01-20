@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.wrongType = exports.specialChars = exports.hasSpaces = exports.empty = void 0;
+exports.asyncError = exports.wrongType = exports.specialChars = exports.hasSpaces = exports.empty = void 0;
 //Empty values validator
 function empty(...values) {
     values.forEach(value => {
@@ -36,8 +36,9 @@ function wrongType(data, types) {
     const dataKeys = Object.keys(data);
     const typeKeys = Object.keys(types);
     //Checking if data has all types items
+    console.log(typeKeys.length, dataKeys.length);
     if (typeKeys.length > dataKeys.length) {
-        return false;
+        throw new Error('Missing fields');
     }
     //Checking if they have equal values
     const result = dataKeys.every(key => typeof data[key] == types[key]);
@@ -45,3 +46,15 @@ function wrongType(data, types) {
         throw new Error('Wrong input types');
 }
 exports.wrongType = wrongType;
+//Execute next on error to handle errors without breaking the server
+function asyncError(inputChecker, rrn) {
+    try {
+        inputChecker(rrn);
+        return false;
+    }
+    catch (e) {
+        rrn.next(e);
+        return true;
+    }
+}
+exports.asyncError = asyncError;

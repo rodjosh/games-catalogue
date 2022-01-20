@@ -33,11 +33,6 @@ function start() {
 exports.default = start;
 exports.dbmodels = {
     User: sequelize.define('User', {
-        role: {
-            type: sequelize_1.DataTypes.STRING,
-            allowNull: false,
-            defaultValue: "user"
-        },
         name: {
             type: sequelize_1.DataTypes.STRING,
             allowNull: false
@@ -61,6 +56,24 @@ exports.dbmodels = {
         },
         password: {
             type: sequelize_1.DataTypes.STRING,
+            allowNull: false
+        }
+    }),
+    Review: sequelize.define('Review', {
+        author: {
+            type: sequelize_1.DataTypes.STRING,
+            allowNull: false
+        },
+        rate: {
+            type: sequelize_1.DataTypes.FLOAT,
+            allowNull: false
+        },
+        description: {
+            type: sequelize_1.DataTypes.TEXT,
+            allowNull: false
+        },
+        game_id: {
+            type: sequelize_1.DataTypes.INTEGER,
             allowNull: false
         }
     })

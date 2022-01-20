@@ -28,6 +28,10 @@ api.post('/login', (req, res, next)=>{
 	routes.login({req, res, next});
 })
 
+api.post('/addreview', (req, res, next)=>{
+	routes.addReview({req, res, next});
+})
+
 //Implementing routing
 app.use('/api', api);
 

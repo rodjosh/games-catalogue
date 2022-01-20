@@ -61,7 +61,8 @@ function checkInput(rrn) {
 function signup(rrn) {
     return __awaiter(this, void 0, void 0, function* () {
         //Check user input to be valid
-        checkInput(rrn);
+        if (validation.asyncError(checkInput, rrn))
+            return;
         //Saving params
         const { name, username, email, gender, age, password } = rrn.req.body;
         //Encrypting password

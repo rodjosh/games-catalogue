@@ -24,6 +24,9 @@ api.post('/signup', (req, res, next) => {
 api.post('/login', (req, res, next) => {
     routes_1.default.login({ req, res, next });
 });
+api.post('/addreview', (req, res, next) => {
+    routes_1.default.addReview({ req, res, next });
+});
 //Implementing routing
 app.use('/api', api);
 //Error handling

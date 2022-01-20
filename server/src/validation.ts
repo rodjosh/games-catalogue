@@ -1,3 +1,10 @@
+//To identify the Request, Response & Next object
+export interface RRN {
+	req: any,
+	res: any,
+	next: any
+}
+
 //Empty values validator
 export function empty(...values:any[]):void {
 
@@ -8,7 +15,7 @@ export function empty(...values:any[]):void {
 }
 
 //Value with spaces validator
-export function hasSpaces(...values:any[]): void{
+export function hasSpaces(...values:any[]): void {
 	const whitespacesRegex:RegExp = /\s/;
 
 	values.forEach(value=>{
@@ -30,19 +37,32 @@ export function specialChars(...values:any[]):void {
 }
 
 //Wrong type values validator
-export function wrongType (data: any, types: {[index: string]: string}){
+export function wrongType (data: any, types: {[index: string]: string}): void {
 
 	//Retrieving properties
 	const dataKeys = Object.keys(data);
 	const typeKeys = Object.keys(types);
 
 	//Checking if data has all types items
+	console.log(typeKeys.length, dataKeys.length);
+
 	if (typeKeys.length > dataKeys.length){
-		return false;
+		throw new Error('Missing fields')
 	}
 
 	//Checking if they have equal values
 	const result = dataKeys.every(key => typeof data[key] == types[key]);
 
 	if(!result) throw new Error('Wrong input types');
-}  
+}
+
+//Execute next on error to handle errors without breaking the server
+export function asyncError (inputChecker: any, rrn: RRN): boolean {
+	try {
+		inputChecker(rrn);
+		return false;
+	} catch (e) {
+		rrn.next(e);
+		return true;
+	}
+}
