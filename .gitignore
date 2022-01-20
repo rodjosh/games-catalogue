@@ -107,4 +107,4 @@ dist
 *.sqlite
 
 # Personal requirements log
-reqs.txt
+server/reqs.txt
