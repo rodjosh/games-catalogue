@@ -32,6 +32,10 @@ api.post('/addreview', (req, res, next)=>{
 	routes.addReview({req, res, next});
 })
 
+api.post('/getreviews', (req, res, next)=>{
+	routes.getReviews({req, res, next});
+})
+
 //Implementing routing
 app.use('/api', api);
 

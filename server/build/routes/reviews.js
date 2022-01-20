@@ -28,6 +28,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getReviews = exports.addReview = void 0;
 //Data validator
 const validation = __importStar(require("../validation"));
 //Importing database models
@@ -74,4 +75,30 @@ function addReview(rrn) {
         });
     });
 }
-exports.default = addReview;
+exports.addReview = addReview;
+function getReviews(rrn) {
+    return __awaiter(this, void 0, void 0, function* () {
+        //Parsing game id
+        const { game_id } = rrn.req.body;
+        //Check if game id is valid
+        if (validation.asyncError((rrn) => {
+            validation.wrongType(rrn.req.body, {
+                game_id: "number"
+            });
+        }, rrn))
+            return;
+        //Searching reviews that match the game id
+        const reviews = yield reviewsModel.findAll({
+            where: {
+                game_id: game_id
+            },
+            limit: 10
+        });
+        //Handling if no reviews
+        if (!reviews.length)
+            return rrn.next(new Error('No reviews for this game id'));
+        const results = reviews.map((review) => review.dataValues);
+        rrn.res.json(results);
+    });
+}
+exports.getReviews = getReviews;
