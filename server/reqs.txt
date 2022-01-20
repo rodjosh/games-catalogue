@@ -4,6 +4,8 @@ Application requirements - Server Side:
 
 0 - Login and Signup (Pending session mechanism)
 
+* - Learning apicalypse
+
 * - Most Rated Videogames
 
 * - 4 Videogames genres
