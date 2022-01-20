@@ -105,3 +105,6 @@ dist
 
 # Database
 *.sqlite
+
+# Personal requirements log
+reqs.txt
