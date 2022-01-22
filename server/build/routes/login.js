@@ -50,7 +50,7 @@ function checkInput(rrn) {
     //Validation for special chars
     validation.specialChars(username);
 }
-function signup(rrn) {
+function login(rrn) {
     return __awaiter(this, void 0, void 0, function* () {
         //Check user input to be valid
         if (validation.asyncError(checkInput, rrn))
@@ -77,4 +77,4 @@ function signup(rrn) {
         rrn.next(new Error('Password doesn\'t match'));
     });
 }
-exports.default = signup;
+exports.default = login;

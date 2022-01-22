@@ -6,7 +6,7 @@ import {dbmodels} from "../database";
 const reviewsModel = dbmodels.Review;
 
 //rrn is req, res & next
-function checkInput(rrn: validation.RRN){
+function checkInput(rrn: validation.RRN) {
 
 	interface Review {
 		author: string,
@@ -37,7 +37,7 @@ function checkInput(rrn: validation.RRN){
 	validation.specialChars(author);
 }
 
-export async function addReview (rrn: validation.RRN){
+export async function addReview (rrn: validation.RRN) {
 	//Check user input to be valid
 	if (validation.asyncError(checkInput, rrn)) return;
 
@@ -83,6 +83,7 @@ export async function getReviews (rrn: validation.RRN) {
 	//Handling if no reviews
 	if (!reviews.length) return rrn.next(new Error('No reviews for this game id'));
 
+	//Returning results in response
 	const results = reviews.map((review:any)=>review.dataValues); 
 	rrn.res.json(results);
 }

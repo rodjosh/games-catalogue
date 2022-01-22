@@ -36,6 +36,17 @@ api.post('/getreviews', (req, res, next)=>{
 	routes.getReviews({req, res, next});
 })
 
+const games = express.Router();
+api.use('/games', games);
+
+games.get('/rated', (req, res, next)=>{
+	routes.rated({req, res, next});
+});
+
+games.get('/genre/:genre', (req, res,next)=>{
+	routes.genres({req, res, next}, req.params.genre);
+})
+1
 //Implementing routing
 app.use('/api', api);
 

@@ -30,6 +30,15 @@ api.post('/addreview', (req, res, next) => {
 api.post('/getreviews', (req, res, next) => {
     routes_1.default.getReviews({ req, res, next });
 });
+const games = express_1.default.Router();
+api.use('/games', games);
+games.get('/rated', (req, res, next) => {
+    routes_1.default.rated({ req, res, next });
+});
+games.get('/genre/:genre', (req, res, next) => {
+    routes_1.default.genres({ req, res, next }, req.params.genre);
+});
+1;
 //Implementing routing
 app.use('/api', api);
 //Error handling

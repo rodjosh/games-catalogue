@@ -97,6 +97,7 @@ function getReviews(rrn) {
         //Handling if no reviews
         if (!reviews.length)
             return rrn.next(new Error('No reviews for this game id'));
+        //Returning results in response
         const results = reviews.map((review) => review.dataValues);
         rrn.res.json(results);
     });

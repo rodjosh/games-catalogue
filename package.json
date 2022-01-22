@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/rodjosh/games-catalogue/issues"
   },
-  "homepage": "https://github.com/rodjosh/games-catalogue#readme"
+  "homepage": "https://github.com/rodjosh/games-catalogue#readme",
+  "dependencies": {
+    "axios": "^0.25.0",
+    "dotenv": "^14.2.0"
+  }
 }

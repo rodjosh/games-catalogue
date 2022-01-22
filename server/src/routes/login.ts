@@ -34,7 +34,7 @@ function checkInput(rrn: validation.RRN){
 	validation.specialChars(username);
 }
 
-export default async function signup (rrn: validation.RRN){
+export default async function login (rrn: validation.RRN){
 	//Check user input to be valid
 	if (validation.asyncError(checkInput, rrn)) return;
 
