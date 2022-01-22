@@ -45,8 +45,8 @@ games.get('/rated', (req, res, next)=>{
 
 games.get('/genre/:genre', (req, res,next)=>{
 	routes.genres({req, res, next}, req.params.genre);
-})
-1
+});
+
 //Implementing routing
 app.use('/api', api);
 
