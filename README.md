@@ -4,7 +4,7 @@ The main goal is making a game catalogue using Typescript with Node.js, Express,
 
 ## TODO
 
-#### API
+### API
 
 - [x] Login
 - [X] Sign Up
@@ -16,4 +16,5 @@ The main goal is making a game catalogue using Typescript with Node.js, Express,
 - [X] Games List by Rated
 - [X] Games List by Genres
 
-#### Frontend
+### Frontend
+
