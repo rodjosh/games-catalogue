@@ -18,3 +18,5 @@ The main goal is making a game catalogue using Typescript with Node.js, Express,
 
 ### Frontend
 
+- [ ] Start the prototype using Javascript
+- [ ] Implement the app with Typescript
