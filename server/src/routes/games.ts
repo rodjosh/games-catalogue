@@ -44,7 +44,7 @@ async function getToken(){
 	try {
 		const result = await response;
 		return result.data.access_token;
-	} catch {
+	} catch (e) {
 		return false;
 	}
 }

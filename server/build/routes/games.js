@@ -13,17 +13,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.genres = exports.rated = void 0;
+//To make calls to igdb api
 const axios_1 = __importDefault(require("axios"));
 const dotenv_1 = require("dotenv");
 //Setting up env file variables
 (0, dotenv_1.config)({
     path: __dirname + '/../../../.env'
 });
-//rated, fighting, shooter, rpg, adventure
+//Store games lists from api calls
 const games = {};
+//Games API
 const games_url = 'https://api.igdb.com/v4/games';
-function parseGame(list) {
-    return list.map((game) => {
+function parseGame(games_list) {
+    //Restructuring every game object
+    return games_list.map((game) => {
         return {
             name: game.name,
             cover: game.cover.url,
@@ -49,7 +52,7 @@ function getToken() {
             const result = yield response;
             return result.data.access_token;
         }
-        catch (_a) {
+        catch (e) {
             return false;
         }
     });

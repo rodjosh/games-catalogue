@@ -1,5 +1,6 @@
 import startDatabase from "./database";
 import express from "express";
+import cors from "cors";
 
 const app = express();
 const database = startDatabase();
@@ -14,6 +15,9 @@ import routes from "./routes";
 
 //API router
 const api = express.Router();
+
+//Enable CORS
+api.use(cors());
 
 //Parsing json body requests
 api.use(express.json());
@@ -61,6 +65,6 @@ app.use((err:any, req:any, res:any, next:any)=>{
 })
 
 //Starting up the server
-app.listen(3000, ()=>{
-	console.log('Listening on 3000');
+app.listen(3001, ()=>{
+	console.log('Listening on 3001');
 })

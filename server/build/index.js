@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const database_1 = __importDefault(require("./database"));
 const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 const database = (0, database_1.default)();
 //Checking database connection
@@ -15,6 +16,8 @@ if (!database) {
 const routes_1 = __importDefault(require("./routes"));
 //API router
 const api = express_1.default.Router();
+//Enable CORS
+api.use((0, cors_1.default)());
 //Parsing json body requests
 api.use(express_1.default.json());
 //Handling api requests with routes
@@ -38,7 +41,6 @@ games.get('/rated', (req, res, next) => {
 games.get('/genre/:genre', (req, res, next) => {
     routes_1.default.genres({ req, res, next }, req.params.genre);
 });
-1;
 //Implementing routing
 app.use('/api', api);
 //Error handling
@@ -49,6 +51,6 @@ app.use((err, req, res, next) => {
     console.log(message);
 });
 //Starting up the server
-app.listen(3000, () => {
-    console.log('Listening on 3000');
+app.listen(3001, () => {
+    console.log('Listening on 3001');
 });
