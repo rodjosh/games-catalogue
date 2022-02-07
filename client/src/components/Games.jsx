@@ -18,7 +18,7 @@ function parseGames(gameData){
 			<h1 className="font-semibold text-xl text-center px-12 py-2 sm:text-base xl:px-4">{game.name}</h1>
 
 			<div className="xl:flex xl:flex-row px-4 pb-2">
-				<img alt="Game Cover" className="my-2 w-full xl:mx-auto xl:h-[200px]" src={game.cover} />
+				<img alt="Game Cover" className="my-2 w-full xl:mx-auto xl:w-auto xl:h-[200px]" src={game.cover} />
 				<p className="text-justify text-lg pt-4 break-words sm:leading-5 sm:text-base xl:px-4 xl:py-2 xl:text-[14px]">{game.summary}</p>
 			</div>
 		</div>)
