@@ -34,4 +34,5 @@ Brief list explaining what steps are remaining from the process to finish the pr
 - [ ] Login / Signup
 - [ ] Game Details Page
 - [ ] Reviews Mechanism
+- [ ] Replace server url with env variable
 - [ ] Implement the app with Typescript
