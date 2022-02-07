@@ -1,3 +1,5 @@
+import {useState} from "react";
+
 function Title (props) {
 	// Returns a title component that redirects to main page when clicked
 	return (<h1 onClick={()=>props.setPage('/')} className="cursor-pointer text-center md:text-left text-4xl font-bold">
@@ -10,6 +12,8 @@ function Search () {
 }
 
 function Menu (props) {
+	const [[showGenres, nextClick], setShowGenres] = useState([false, true]);
+	const genreClassValue = showGenres ? 'block sm:inline-block' : 'hidden sm:inline-block';
 
 	//Menu options based on genres
 	const options = [{
@@ -31,15 +35,18 @@ function Menu (props) {
 
 	const items = options.map((option)=>{
 		//Returns menu items that when clicked loads the corresponding game genre
-		return (<li className="inline-block" key={option.name}>
-			<button className="transition ease-in-out py-2 px-4 hover:bg-gray-400" onClick={()=>{
+		return (<li className={genreClassValue} key={option.name}>
+			<button className="w-full transition ease-in-out py-2 px-4 hover:bg-gray-400 sm:w-auto" onClick={()=>{
 				props.setPage(option.slug); 
 				console.log(option.slug);
 			}}> {option.name} </button>
 		</li>)
 	})
 
-	return (<ul className="flex flex-row bg-gray-300">
+	return (<ul className="flex flex-col sm:flex-row bg-gray-300">
+		<li className="block sm:hidden" key="dropdown-menu" onClick={()=>setShowGenres([nextClick, showGenres])}>
+			<button className="w-full transition ease-in-out py-2 px-4 hover:bg-gray-400 sm:w-auto"> Show Genres </button>
+		</li>
 		{items}
 	</ul>)
 }
