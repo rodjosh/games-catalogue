@@ -1,8 +1,10 @@
 # Project: Games Catalogue
 
-The main goal is making a game catalogue using Typescript with Node.js, Express, Axios, Sequelize, React & Tailwind.
+The main goal is making a game catalogue using Typescript with Node.js, Express, Axios, Sequelize, React & Tailwind gathering the games data from igdb api. (To run locally you need your own twitch keys)
 
 ## TODO
+
+Brief list explaining what steps are remaining from the process to finish the project.
 
 ### API
 
