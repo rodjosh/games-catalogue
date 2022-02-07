@@ -2,6 +2,10 @@
 
 The main goal is making a game catalogue using Typescript with Node.js, Express, Axios, Sequelize, React & Tailwind gathering the games data from igdb api. (To run locally you need your own twitch keys)
 
+## Structure
+
+The project is divided in two folders, "client" and "server", as the name suggest "client" folder has everything related to the browser-side. Also "server" folder has everything related to the API. Check every folder README for further instructions.
+
 ## TODO
 
 Brief list explaining what steps are remaining from the process to finish the project.
