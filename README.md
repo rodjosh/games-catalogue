@@ -18,5 +18,12 @@ The main goal is making a game catalogue using Typescript with Node.js, Express,
 
 ### Frontend
 
-- [ ] Start the prototype using Javascript
+- [X] Start the prototype using Javascript
+- [X] Navbar
+- [X] Games Section
+- [X] Change games with tabs
+- [X] Major Responsiveness
+- [ ] Login / Signup
+- [ ] Game Details Page
+- [ ] Reviews Mechanism
 - [ ] Implement the app with Typescript
