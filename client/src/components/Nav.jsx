@@ -1,5 +1,5 @@
-function Title () {
-	return (<h1 className="text-center md:text-left text-4xl font-bold">
+function Title (props) {
+	return (<h1 onClick={()=>props.setPage('/')} className="cursor-pointer text-center md:text-left text-4xl font-bold">
 		Games Catalogue
 	</h1>)
 }
@@ -28,7 +28,7 @@ function Menu (props) {
 
 	const items = options.map((option)=>{
 		return (<li className="inline-block" key={option.name}>
-			<button className="py-2 px-4 hover:bg-gray-400" onClick={()=>{
+			<button className="transition ease-in-out py-2 px-4 hover:bg-gray-400" onClick={()=>{
 				props.setPage(option.slug); 
 				console.log(option.slug);
 			}}> {option.name} </button>
@@ -43,7 +43,7 @@ function Menu (props) {
 export default function Nav (props) {
 	return (<nav>
 		<div className="md:flex md:flex-row md:justify-between p-8">
-			<Title />
+			<Title setPage={props.setPage}/>
 			<Search />
 		</div>
 		<Menu setPage={props.setPage} />		
