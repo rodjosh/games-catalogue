@@ -29,6 +29,8 @@ Brief list explaining what steps are remaining from the process to finish the pr
 - [X] Games Section
 - [X] Change games with tabs
 - [X] Major Responsiveness
+- [ ] Create mobile-friendly dropdown menu
+- [ ] Handle errors when API fails
 - [ ] Login / Signup
 - [ ] Game Details Page
 - [ ] Reviews Mechanism
