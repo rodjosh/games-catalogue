@@ -28,52 +28,45 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-//Data validator
 const validation = __importStar(require("../validation"));
-//Importing database models
+const bcrypt = __importStar(require("bcrypt"));
 const database_1 = require("../database");
 const userModel = database_1.dbmodels.User;
-//Password encrypter
-const bcrypt = __importStar(require("bcrypt"));
-//rrn is req, res & next
+function getUserFromBody(rrn) {
+    const username = rrn.req.body.username;
+    const password = rrn.req.body.password;
+    return { username, password };
+}
 function checkInput(rrn) {
-    const { username, password } = rrn.req.body;
-    //Validation for wrong types
+    const user = getUserFromBody(rrn);
     validation.wrongType(rrn.req.body, {
         username: "string",
         password: "string"
     });
-    //Validation for empty values
-    validation.empty(username, password);
-    //Validation for spaces
-    validation.hasSpaces(username);
-    //Validation for special chars
-    validation.specialChars(username);
+    validation.empty(user.username, user.password);
+    validation.hasSpaces(user.username);
+    validation.specialChars(user.username);
 }
 function login(rrn) {
     return __awaiter(this, void 0, void 0, function* () {
-        //Check user input to be valid
+        //To check if input match with predefined scheme and types
         if (validation.asyncError(checkInput, rrn))
             return;
-        //Saving params
         const { username, password } = rrn.req.body;
-        //Retrieven users that matchs username
+        //To retrieve user information if exists in the database
         const user = yield userModel.findOne({
             where: {
                 username: username
             }
         });
-        //If no users then username doesn't exists
         if (!user)
             return rrn.next(new Error("User doesn't exist"));
-        //Comparing passwords
+        // To compare passwords
         const hashedPassword = user.get('password');
         const result = yield bcrypt.compare(password, hashedPassword);
-        //If passwords match then send success message
         if (result) {
             return rrn.res.send('Successfully logged');
         }
-        //If passwords doesn't match then send error message
         rrn.next(new Error('Password doesn\'t match'));
     });
 }

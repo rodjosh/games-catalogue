@@ -8,20 +8,19 @@ import cors from "cors";
 const app = express();
 const database = startDatabase();
 
-//Checking database connection
+//To check database connection
 if (!database){
 	throw new Error("Cannot connect to the database");
 }
 
-//API routes manager
 import routes from "./routes";
 
-//Enable server utilities
 app.use(cors());
+
+//To parse body data and cookies
 app.use(express.json());
 app.use(cookieParser());
 
-//API router
 const api = express.Router();
 
 api.post('/signup', (req, res, next)=>{
@@ -32,12 +31,13 @@ api.post('/login', (req, res, next)=>{
 	routes.login({req, res, next});
 })
 
-//Prevent not authenticated users
+//To prevent non-authenticated users
 const usersOnly = express.Router();
-//usersOnly.use(jwt)
 api.use(usersOnly);
 
-//Reviews endpoints
+//To attach jwt checking to users only endpoints
+//usersOnly.use(jwt.check);
+
 const reviews = express.Router();
 usersOnly.use(reviews);
 
@@ -49,7 +49,6 @@ reviews.post('/getreviews', (req, res, next)=>{
 	routes.getReviews({req, res, next});
 })
 
-//Games endpoints
 const games = express.Router();
 usersOnly.use('/games', games);
 
@@ -61,10 +60,9 @@ games.get('/genre/:genre', (req, res,next)=>{
 	routes.genres({req, res, next}, req.params.genre);
 });
 
-//Implementing routing
 app.use('/api', api);
 
-//Error handling
+//To handle errors
 app.use((err:any, req:any, res:any, next:any)=>{
 	const message = "Error: " +  err.message;
 
@@ -74,7 +72,6 @@ app.use((err:any, req:any, res:any, next:any)=>{
 	console.log(message);
 })
 
-//Starting up the server
 app.listen(3001, ()=>{
-	console.log('Listening on 3001');
+	console.log('Server listening on 3001');
 })

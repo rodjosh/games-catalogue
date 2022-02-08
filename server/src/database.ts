@@ -1,12 +1,11 @@
 import {Sequelize, DataTypes} from "sequelize";
 
-//Initializing database
 const sequelize = new Sequelize({
 	dialect: 'sqlite',
 	storage: '../db.sqlite'
 });
 
-//Database start function
+//To initialize the database
 export default async function start(){
 	try {
 		await sequelize.authenticate();
@@ -18,6 +17,7 @@ export default async function start(){
 	}
 }
 
+//To access the database models from other modules
 export const dbmodels = {
 	User: sequelize.define('User', {
 		name: {

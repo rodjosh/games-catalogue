@@ -1,19 +1,31 @@
-//Data validator
 import * as validation from "../validation";
-
-//To make calls to igdb api
 import axios from 'axios';
 import env from '../env';
 
-//Store games lists from api calls
+type GameGenre = {
+	name: string
+}
+
+type GameCover = {
+	url: string
+}
+
+interface Game {
+	name: string;
+	cover: GameCover;
+	genres: Array<GameGenre>;
+	summary: string;
+	total_rating: number;
+}
+
+//To storage previous API calls
 const games:any = {};
 
-//Games API
 const games_url = 'https://api.igdb.com/v4/games';
 
-function parseGame(games_list:any){
-	//Restructuring every game object
-	return games_list.map((game:any)=>{
+//To send a structured version of games information
+function parseGame(games_list:Array<Game>){
+	return games_list.map((game:Game)=>{
 		return {
 			name: game.name,
 			cover: game.cover.url,
@@ -24,8 +36,8 @@ function parseGame(games_list:any){
 	})
 }
 
+//To get Twitch API token
 async function getToken(){
-	//Request token from twitch API
 	const response = axios({
 		method: 'post',
 		url: 'https://id.twitch.tv/oauth2/token',
@@ -35,7 +47,6 @@ async function getToken(){
 		data: `client_id=${env?.CLIENT_ID}&client_secret=${env?.CLIENT_SECRET}&grant_type=client_credentials`
 	});
 
-	//Check if the request is successful
 	try {
 		const result = await response;
 		return result.data.access_token;
@@ -45,19 +56,15 @@ async function getToken(){
 }
 
 export async function rated(rrn: validation.RRN){
-	//Returning previous data if already loaded
 	if (games.rated){
 		rrn.res.json(games.rated);
 		return;
 	}
 
-	//Getting api token
 	const token = await getToken();
+	if (!token) return rrn.next(new Error('Problems creating token'));
 
-	//Return error if token request fails
-	if (!token)	return rrn.next(new Error('Problems creating token'));
-
-	//Requesting API for games
+	// To fetch games data from igdb API
 	const response = axios({
 		method: 'post',
 		url: games_url,
@@ -74,7 +81,6 @@ export async function rated(rrn: validation.RRN){
 		`
 	});
 
-	//Check if request is successful
 	try {
 		games.rated = parseGame((await response).data);
 		rrn.res.json(games.rated);
@@ -84,25 +90,21 @@ export async function rated(rrn: validation.RRN){
 }
 
 export async function genres(rrn: validation.RRN, genre: string){
-	//Returning previous data if already loaded
 	if (games[genre]){
 		rrn.res.json(games[genre]);
 		return;
 	}
 
-	//Getting api token
 	const token = await getToken();
-
-	//Return error if token request fails
 	if (!token)	return rrn.next(new Error('Problems creating token'));
 
-	//Requesting API for games
+	//To fetch genres list from igdb API
 	const response = axios({
 		method: 'post',
 		url: games_url,
 		headers: {
 			'Content-Type': 'text/plain',
-			'Client-ID': `{env.CLIENT_ID}`,
+			'Client-ID': `${env?.CLIENT_ID}`,
 			'Authorization': `Bearer ${token}`
 		},
 		data: `
@@ -111,7 +113,6 @@ export async function genres(rrn: validation.RRN, genre: string){
 		`
 	});
 
-	//Check if request is successful
 	try {
 		const result = (await response).data;
 		console.log(result)

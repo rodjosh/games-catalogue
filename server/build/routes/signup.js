@@ -28,17 +28,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-//Data validator
 const validation = __importStar(require("../validation"));
-//Importing database models
 const database_1 = require("../database");
 const userModel = database_1.dbmodels.User;
-//Password encrypter
 const bcrypt = __importStar(require("bcrypt"));
-//rrn is req, res & next
 function checkInput(rrn) {
     const { name, age, username, email, gender, password } = rrn.req.body;
-    //Validation for wrong types
     validation.wrongType(rrn.req.body, {
         name: "string",
         username: "string",
@@ -47,28 +42,19 @@ function checkInput(rrn) {
         age: "number",
         password: "string"
     });
-    /*
-    Note: empty integers field will fall on wrongtype due to being
-    empty got assign "undefined"
-    */
-    //Validation for empty values
     validation.empty(name, username, email, gender, password);
-    //Validation for spaces
     validation.hasSpaces(username, email);
-    //Validation for special chars
     validation.specialChars(name, username, email, gender);
 }
 function signup(rrn) {
     return __awaiter(this, void 0, void 0, function* () {
-        //Check user input to be valid
         if (validation.asyncError(checkInput, rrn))
             return;
-        //Saving params
         const { name, username, email, gender, age, password } = rrn.req.body;
-        //Encrypting password
+        // To encrypt user password
         const saltRounds = 10;
         const hashedPassword = yield bcrypt.hash(password, saltRounds);
-        //Storing the user in the database
+        // To store the user in the database
         const user = userModel.build({
             name: name,
             username: username,

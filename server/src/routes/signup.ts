@@ -1,14 +1,10 @@
-//Data validator
 import * as validation from "../validation";
 
-//Importing database models
 import {dbmodels} from "../database";
 const userModel = dbmodels.User;
 
-//Password encrypter
 import * as bcrypt from "bcrypt";
 
-//rrn is req, res & next
 function checkInput(rrn: validation.RRN){
 
 	interface User {
@@ -22,7 +18,6 @@ function checkInput(rrn: validation.RRN){
 
 	const {name, age, username, email, gender, password} = rrn.req.body as User;
 
-	//Validation for wrong types
 	validation.wrongType(rrn.req.body, {
 		name: "string",
 		username: "string",
@@ -32,33 +27,21 @@ function checkInput(rrn: validation.RRN){
 		password: "string"
 	});
 
-	/*
-	Note: empty integers field will fall on wrongtype due to being
-	empty got assign "undefined"
-	*/
-
-	//Validation for empty values
 	validation.empty(name, username, email, gender, password);
-
-	//Validation for spaces
 	validation.hasSpaces(username, email);
-
-	//Validation for special chars
 	validation.specialChars(name, username, email, gender);
 }
 
 export default async function signup (rrn: validation.RRN){
-	//Check user input to be valid
 	if (validation.asyncError(checkInput, rrn)) return;
 
-	//Saving params
 	const {name, username, email, gender, age, password} = rrn.req.body;
 
-	//Encrypting password
+	// To encrypt user password
 	const saltRounds = 10;
 	const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-	//Storing the user in the database
+	// To store the user in the database
 	const user = userModel.build({
 		name: name,
 		username: username,

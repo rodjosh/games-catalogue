@@ -1,65 +1,51 @@
-//Data validator
 import * as validation from "../validation";
+import * as bcrypt from "bcrypt";
 
-//Importing database models
 import {dbmodels} from "../database";
 const userModel = dbmodels.User;
 
-//Password encrypter
-import * as bcrypt from "bcrypt";
+function getUserFromBody(rrn: validation.RRN){
+	const username: string = rrn.req.body.username;
+	const password: string = rrn.req.body.password;
 
-//rrn is req, res & next
+	return {username, password};
+}
+
 function checkInput(rrn: validation.RRN){
+	const user = getUserFromBody(rrn);
 
-	interface User {
-		username: string,
-		password: string
-	}
-
-	const {username, password} = rrn.req.body as User;
-
-	//Validation for wrong types
 	validation.wrongType(rrn.req.body, {
 		username: "string",
 		password: "string"
 	});
 
-	//Validation for empty values
-	validation.empty(username, password);
-
-	//Validation for spaces
-	validation.hasSpaces(username);
-
-	//Validation for special chars
-	validation.specialChars(username);
+	validation.empty(user.username, user.password);
+	validation.hasSpaces(user.username);
+	validation.specialChars(user.username);
 }
 
 export default async function login (rrn: validation.RRN){
-	//Check user input to be valid
+	//To check if input match with predefined scheme and types
 	if (validation.asyncError(checkInput, rrn)) return;
 
-	//Saving params
 	const {username, password} = rrn.req.body;
 
-	//Retrieven users that matchs username
+	//To retrieve user information if exists in the database
 	const user = await userModel.findOne({
 		where: {
 			username: username
 		}
 	});
 
-	//If no users then username doesn't exists
 	if (!user) return rrn.next(new Error("User doesn't exist"));
 
-	//Comparing passwords
+	// To compare passwords
 	const hashedPassword:string = user.get('password') as string;
 	const result = await bcrypt.compare(password, hashedPassword);
 
-	//If passwords match then send success message
 	if (result) {
 		return rrn.res.send('Successfully logged');
 	}
 
-	//If passwords doesn't match then send error message
 	rrn.next(new Error('Password doesn\'t match'));
 }

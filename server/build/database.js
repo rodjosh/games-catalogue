@@ -11,12 +11,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dbmodels = void 0;
 const sequelize_1 = require("sequelize");
-//Initializing database
 const sequelize = new sequelize_1.Sequelize({
     dialect: 'sqlite',
     storage: '../db.sqlite'
 });
-//Database start function
+//To initialize the database
 function start() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -31,6 +30,7 @@ function start() {
     });
 }
 exports.default = start;
+//To access the database models from other modules
 exports.dbmodels = {
     User: sequelize.define('User', {
         name: {

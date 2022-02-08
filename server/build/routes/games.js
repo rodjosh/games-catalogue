@@ -13,15 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.genres = exports.rated = void 0;
-//To make calls to igdb api
 const axios_1 = __importDefault(require("axios"));
 const env_1 = __importDefault(require("../env"));
-//Store games lists from api calls
+//To storage previous API calls
 const games = {};
-//Games API
 const games_url = 'https://api.igdb.com/v4/games';
+//To send a structured version of games information
 function parseGame(games_list) {
-    //Restructuring every game object
     return games_list.map((game) => {
         return {
             name: game.name,
@@ -32,9 +30,9 @@ function parseGame(games_list) {
         };
     });
 }
+//To get Twitch API token
 function getToken() {
     return __awaiter(this, void 0, void 0, function* () {
-        //Request token from twitch API
         const response = (0, axios_1.default)({
             method: 'post',
             url: 'https://id.twitch.tv/oauth2/token',
@@ -43,7 +41,6 @@ function getToken() {
             },
             data: `client_id=${env_1.default === null || env_1.default === void 0 ? void 0 : env_1.default.CLIENT_ID}&client_secret=${env_1.default === null || env_1.default === void 0 ? void 0 : env_1.default.CLIENT_SECRET}&grant_type=client_credentials`
         });
-        //Check if the request is successful
         try {
             const result = yield response;
             return result.data.access_token;
@@ -55,17 +52,14 @@ function getToken() {
 }
 function rated(rrn) {
     return __awaiter(this, void 0, void 0, function* () {
-        //Returning previous data if already loaded
         if (games.rated) {
             rrn.res.json(games.rated);
             return;
         }
-        //Getting api token
         const token = yield getToken();
-        //Return error if token request fails
         if (!token)
             return rrn.next(new Error('Problems creating token'));
-        //Requesting API for games
+        // To fetch games data from igdb API
         const response = (0, axios_1.default)({
             method: 'post',
             url: games_url,
@@ -81,7 +75,6 @@ function rated(rrn) {
 			sort total_rating desc;
 		`
         });
-        //Check if request is successful
         try {
             games.rated = parseGame((yield response).data);
             rrn.res.json(games.rated);
@@ -94,23 +87,20 @@ function rated(rrn) {
 exports.rated = rated;
 function genres(rrn, genre) {
     return __awaiter(this, void 0, void 0, function* () {
-        //Returning previous data if already loaded
         if (games[genre]) {
             rrn.res.json(games[genre]);
             return;
         }
-        //Getting api token
         const token = yield getToken();
-        //Return error if token request fails
         if (!token)
             return rrn.next(new Error('Problems creating token'));
-        //Requesting API for games
+        //To fetch genres list from igdb API
         const response = (0, axios_1.default)({
             method: 'post',
             url: games_url,
             headers: {
                 'Content-Type': 'text/plain',
-                'Client-ID': `{env.CLIENT_ID}`,
+                'Client-ID': `${env_1.default === null || env_1.default === void 0 ? void 0 : env_1.default.CLIENT_ID}`,
                 'Authorization': `Bearer ${token}`
             },
             data: `
@@ -118,7 +108,6 @@ function genres(rrn, genre) {
 			where genres.slug = "${genre}" & rating_count > 100;
 		`
         });
-        //Check if request is successful
         try {
             const result = (yield response).data;
             console.log(result);
