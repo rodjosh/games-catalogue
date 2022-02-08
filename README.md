@@ -23,6 +23,8 @@ Brief list explaining what steps are remaining from the process to finish the pr
 - [X] Games List by Genres
 - [ ] Attach react and server ports to env variables
 - [ ] Add sample env file to github
+- [ ] Add example headers for API calls for JWT on github
+- [ ] Add example requests to every endpoint in server's readme
 
 ### Frontend
 

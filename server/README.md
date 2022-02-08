@@ -16,3 +16,7 @@ npm install
 ```
 npm start
 ```
+
+## Source
+
+Check `src` folder's `README.md` to get more info about API endpoints
