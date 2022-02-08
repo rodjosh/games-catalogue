@@ -3,12 +3,7 @@ import * as validation from "../validation";
 
 //To make calls to igdb api
 import axios from 'axios';
-import {config} from 'dotenv';
-
-//Setting up env file variables
-config({
-	path: __dirname + '/../../../.env'
-});
+import env from '../env';
 
 //Store games lists from api calls
 const games:any = {};
@@ -37,7 +32,7 @@ async function getToken(){
 		headers:{
 			'Content-Type': 'application/x-www-form-urlencoded'
 		},
-		data: `client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&grant_type=client_credentials`
+		data: `client_id=${env?.CLIENT_ID}&client_secret=${env?.CLIENT_SECRET}&grant_type=client_credentials`
 	});
 
 	//Check if the request is successful
@@ -68,7 +63,7 @@ export async function rated(rrn: validation.RRN){
 		url: games_url,
 		headers: {
 			'Content-Type': 'text/plain',
-			'Client-ID': `${process.env.CLIENT_ID}`,
+			'Client-ID': `${env?.CLIENT_ID}`,
 			'Authorization': `Bearer ${token}`
 		},
 		data: `
@@ -107,7 +102,7 @@ export async function genres(rrn: validation.RRN, genre: string){
 		url: games_url,
 		headers: {
 			'Content-Type': 'text/plain',
-			'Client-ID': `${process.env.CLIENT_ID}`,
+			'Client-ID': `{env.CLIENT_ID}`,
 			'Authorization': `Bearer ${token}`
 		},
 		data: `

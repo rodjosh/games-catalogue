@@ -15,11 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.genres = exports.rated = void 0;
 //To make calls to igdb api
 const axios_1 = __importDefault(require("axios"));
-const dotenv_1 = require("dotenv");
-//Setting up env file variables
-(0, dotenv_1.config)({
-    path: __dirname + '/../../../.env'
-});
+const env_1 = __importDefault(require("../env"));
 //Store games lists from api calls
 const games = {};
 //Games API
@@ -45,7 +41,7 @@ function getToken() {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            data: `client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&grant_type=client_credentials`
+            data: `client_id=${env_1.default === null || env_1.default === void 0 ? void 0 : env_1.default.CLIENT_ID}&client_secret=${env_1.default === null || env_1.default === void 0 ? void 0 : env_1.default.CLIENT_SECRET}&grant_type=client_credentials`
         });
         //Check if the request is successful
         try {
@@ -75,7 +71,7 @@ function rated(rrn) {
             url: games_url,
             headers: {
                 'Content-Type': 'text/plain',
-                'Client-ID': `${process.env.CLIENT_ID}`,
+                'Client-ID': `${env_1.default === null || env_1.default === void 0 ? void 0 : env_1.default.CLIENT_ID}`,
                 'Authorization': `Bearer ${token}`
             },
             data: `
@@ -114,7 +110,7 @@ function genres(rrn, genre) {
             url: games_url,
             headers: {
                 'Content-Type': 'text/plain',
-                'Client-ID': `${process.env.CLIENT_ID}`,
+                'Client-ID': `{env.CLIENT_ID}`,
                 'Authorization': `Bearer ${token}`
             },
             data: `

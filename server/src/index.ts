@@ -1,5 +1,8 @@
 import startDatabase from "./database";
 import express from "express";
+
+import cookieParser from "cookie-parser";
+import jwt from "./jwt"
 import cors from "cors";
 
 const app = express();
@@ -13,16 +16,13 @@ if (!database){
 //API routes manager
 import routes from "./routes";
 
+//Enable server utilities
+app.use(cors());
+app.use(express.json());
+app.use(cookieParser());
+
 //API router
 const api = express.Router();
-
-//Enable CORS
-api.use(cors());
-
-//Parsing json body requests
-api.use(express.json());
-
-//Handling api requests with routes
 
 api.post('/signup', (req, res, next)=>{
 	routes.signup({req, res, next});
@@ -32,16 +32,26 @@ api.post('/login', (req, res, next)=>{
 	routes.login({req, res, next});
 })
 
-api.post('/addreview', (req, res, next)=>{
+//Prevent not authenticated users
+const usersOnly = express.Router();
+//usersOnly.use(jwt)
+api.use(usersOnly);
+
+//Reviews endpoints
+const reviews = express.Router();
+usersOnly.use(reviews);
+
+reviews.post('/addreview', (req, res, next)=>{
 	routes.addReview({req, res, next});
 })
 
-api.post('/getreviews', (req, res, next)=>{
+reviews.post('/getreviews', (req, res, next)=>{
 	routes.getReviews({req, res, next});
 })
 
+//Games endpoints
 const games = express.Router();
-api.use('/games', games);
+usersOnly.use('/games', games);
 
 games.get('/rated', (req, res, next)=>{
 	routes.rated({req, res, next});
