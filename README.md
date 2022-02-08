@@ -11,6 +11,7 @@ The project is divided in two folders, "client" and "server", as the name sugges
 Brief list explaining what steps are remaining from the process to finish the project.
 
 - Backend
+
 	- [x] Login
 	- [X] Sign Up
 	- [ ] JWT 
@@ -24,7 +25,10 @@ Brief list explaining what steps are remaining from the process to finish the pr
 	- [ ] Add sample env file to github
 	- [ ] Add example headers for API calls for JWT on github
 	- [ ] Add example requests to every endpoint in server's readme
+
+
 - Frontend
+
 	- [X] Start the prototype using Javascript
 	- [X] Navbar
 	- [X] Games Section
