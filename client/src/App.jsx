@@ -6,10 +6,10 @@ import Games from "./components/Games";
 
 function App() {
 
-	//Declaring page value in state
+	//To manage page changes
 	const [page, setPage] = useState('/');
 
-	//Returning page structure
+	//Main page structure
 	return (<div className="container mx-auto">
 		<Nav setPage={setPage}/>
 		<Games page={page} />

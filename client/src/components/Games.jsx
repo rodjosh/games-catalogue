@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from "react";
 
-// Waiting screen while the server loads games data
+//Fallback for games section
 function loadingGames(){
 	return (<h1>Loading Games</h1>);
 }
 
-// Parse games data and returns their react elements
+//To convert json data to react components
 function parseGames(gameData){
 	return gameData.map(game => {
 		game.cover = game.cover.replace("t_thumb", "t_cover_big");
 	
+		//To create a summary extract
 		const summary_chars = game.summary.split("");
 		if (summary_chars.length > 200) {
 			game.summary = summary_chars.slice(0, 200);
@@ -27,7 +28,7 @@ function parseGames(gameData){
 	})
 }
 
-// Fetch games from API and update "page" state
+//To fetch games data from API
 function fetchGames(page, setGameData){
 	let url = 'http://localhost:3001/api/games/rated';
 
@@ -45,9 +46,10 @@ function fetchGames(page, setGameData){
 }
 
 export default function Games(props){
+	//To render whenever games data changes
 	const [gameData, setGameData] = useState(null);	
 
-	// Load game data everytime page state changes
+	//To fetch and change game data whenever page property changes
 	useEffect(()=>{
 		setGameData(null);
 		fetchGames(props.page, setGameData);
@@ -55,7 +57,7 @@ export default function Games(props){
 	}, [props.page])
 
 	return (<main className="grid sm:grid-cols-2 lg:grid-cols-3 mt-8">
-		{/* Check if game data is loaded, if not, show loading screen */}
+		{/* To show the fallback when games data isn't ready */}
 		{gameData ? parseGames(gameData) : loadingGames() }
 	</main>);
 }
