@@ -22,6 +22,7 @@ Brief list explaining what steps are remaining from the process to finish the pr
 - [X] Games List by Rated
 - [X] Games List by Genres
 - [ ] Attach react and server ports to env variables
+- [ ] Add sample env file to github
 
 ### Frontend
 
