@@ -21,6 +21,7 @@ Brief list explaining what steps are remaining from the process to finish the pr
 - [ ] Delete Reviews
 - [X] Games List by Rated
 - [X] Games List by Genres
+- [ ] Attach react and server ports to env variables
 
 ### Frontend
 
@@ -29,7 +30,7 @@ Brief list explaining what steps are remaining from the process to finish the pr
 - [X] Games Section
 - [X] Change games with tabs
 - [X] Major Responsiveness
-- [ ] Create mobile-friendly dropdown menu
+- [X] Create mobile-friendly dropdown menu
 - [ ] Handle errors when API fails
 - [ ] Login / Signup
 - [ ] Game Details Page
