@@ -7,4 +7,5 @@ const env_config = (0, dotenv_1.config)({
 if (env_config.error) {
     throw env_config.error;
 }
-exports.default = env_config.parsed;
+const env_vars = env_config.parsed;
+exports.default = env_vars;

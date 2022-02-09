@@ -8,4 +8,10 @@ if (env_config.error){
 	throw env_config.error
 }
 
-export default env_config.parsed;
+interface EnvVars {
+	[key: string]: string;
+}
+
+const env_vars:EnvVars = env_config.parsed as EnvVars;
+
+export default env_vars;

@@ -46,8 +46,11 @@ export default async function login (rrn: validation.RRN){
 
 	if (result) {
 		const jwt_token = jwt.createJWT({user: username});
-		console.log(jwt_token);
-
+		rrn.res.cookie('user_token', jwt_token, {
+			httpOnly: true,
+			maxAge: 24 * 60 * 60 * 1000
+		})
+		
 		return rrn.res.send('Successfully logged');
 	}
 

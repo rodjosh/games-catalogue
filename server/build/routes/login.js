@@ -27,9 +27,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const validation = __importStar(require("../validation"));
 const bcrypt = __importStar(require("bcrypt"));
+const jwt_1 = __importDefault(require("../jwt"));
 const database_1 = require("../database");
 const userModel = database_1.dbmodels.User;
 function getUserFromBody(rrn) {
@@ -65,6 +69,11 @@ function login(rrn) {
         const hashedPassword = user.get('password');
         const result = yield bcrypt.compare(password, hashedPassword);
         if (result) {
+            const jwt_token = jwt_1.default.createJWT({ user: username });
+            rrn.res.cookie('user_token', jwt_token, {
+                httpOnly: true,
+                maxAge: 24 * 60 * 60 * 1000
+            });
             return rrn.res.send('Successfully logged');
         }
         rrn.next(new Error('Password doesn\'t match'));
