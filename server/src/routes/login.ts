@@ -1,5 +1,6 @@
 import * as validation from "../validation";
 import * as bcrypt from "bcrypt";
+import jwt from "../jwt";
 
 import {dbmodels} from "../database";
 const userModel = dbmodels.User;
@@ -44,6 +45,9 @@ export default async function login (rrn: validation.RRN){
 	const result = await bcrypt.compare(password, hashedPassword);
 
 	if (result) {
+		const jwt_token = jwt.createJWT({user: username});
+		console.log(jwt_token);
+
 		return rrn.res.send('Successfully logged');
 	}
 
