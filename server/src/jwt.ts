@@ -1,9 +1,8 @@
 import env from "./env";
-import jwt from "jsonwebtoken";
-import type {VerifyErrors, JwtPayload} from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 import type {Request, Response, NextFunction} from "express";
 
-const JWT_SECRET = env?.JWT_SECRET;
+const JWT_SECRET = env?.JWT_SECRET as string;
 
 interface Payload {
 	user: string
@@ -11,8 +10,10 @@ interface Payload {
 
 export default {
 	checkJWT(req: Request, res: Response, next: NextFunction){
-		if (req.cookies.user_token){
-			jwt.verify(req.cookies.user_token, JWT_SECRET, (err, decoded)=>{
+		const token = req.cookies.user_token as string
+
+		if (token){
+			jwt.verify(token, JWT_SECRET, (err, decoded)=>{
 				if (err) throw new Error("Invalid token");
 
 				const payload = decoded as Payload;

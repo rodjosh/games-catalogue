@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const database_1 = __importDefault(require("./database"));
 const express_1 = __importDefault(require("express"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const jwt_1 = __importDefault(require("./jwt"));
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 const database = (0, database_1.default)();
@@ -29,7 +30,7 @@ api.post('/login', (req, res, next) => {
 const usersOnly = express_1.default.Router();
 api.use(usersOnly);
 //To attach jwt checking to users only endpoints
-//usersOnly.use(jwt.check);
+usersOnly.use(jwt_1.default.checkJWT);
 const reviews = express_1.default.Router();
 usersOnly.use(reviews);
 reviews.post('/addreview', (req, res, next) => {
