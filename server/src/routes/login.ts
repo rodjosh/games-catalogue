@@ -56,3 +56,7 @@ export default async function login (rrn: validation.RRN){
 
 	rrn.next(new Error('Password doesn\'t match'));
 }
+
+export async function checkLogin(rrn: validation.RRN) {
+	rrn.res.send("You're logged");
+}

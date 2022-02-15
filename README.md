@@ -14,8 +14,8 @@ Brief list explaining what steps are remaining from the process to finish the pr
 
 	- [x] Login
 	- [X] Sign Up
-	- [ ] JWT 
-	- [ ] Check for JWT
+	- [X] JWT 
+	- [X] Check for JWT
 	- [X] Add Reviews
 	- [X] Get Reviews
 	- [ ] Delete Reviews

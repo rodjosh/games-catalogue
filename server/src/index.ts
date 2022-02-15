@@ -37,6 +37,9 @@ api.use(usersOnly);
 
 //To attach jwt checking to users only endpoints
 usersOnly.use(jwt.checkJWT);
+usersOnly.get('/checklogin', (req, res, next)=>{
+	routes.checkLogin({req, res, next});
+});
 
 const reviews = express.Router();
 usersOnly.use(reviews);
