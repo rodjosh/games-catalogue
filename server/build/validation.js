@@ -32,7 +32,7 @@ function wrongType(data, types) {
         throw new Error('Missing fields');
     }
     // To check if they have equal types
-    const result = dataKeys.every(key => typeof data[key] == types[key]);
+    const result = typeKeys.every(key => typeof data[key] == types[key]);
     if (!result)
         throw new Error('Wrong input types');
 }

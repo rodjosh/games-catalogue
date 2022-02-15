@@ -56,6 +56,6 @@ export default async function signup (rrn: validation.RRN){
 	.then(()=>{
 		rrn.res.send("Succesfully registered");
 	}).catch((e:any)=>{
-		rrn.next(e);
+		rrn.next(new Error("User already exists"));
 	})
 }

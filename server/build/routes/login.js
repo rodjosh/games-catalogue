@@ -75,7 +75,7 @@ function login(rrn) {
                 httpOnly: true,
                 maxAge: 24 * 60 * 60 * 1000
             });
-            return rrn.res.send('Successfully logged');
+            return rrn.res.send(jwt_token);
         }
         rrn.next(new Error('Password doesn\'t match'));
     });

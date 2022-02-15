@@ -15,7 +15,8 @@ if (!database){
 
 import routes from "./routes";
 
-app.use(cors());
+app.use(cors({origin: true, credentials: true}))
+//app.use(cors());
 
 //To parse body data and cookies
 app.use(express.json());

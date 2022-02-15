@@ -15,7 +15,8 @@ if (!database) {
     throw new Error("Cannot connect to the database");
 }
 const routes_1 = __importDefault(require("./routes"));
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({ origin: true, credentials: true }));
+//app.use(cors());
 //To parse body data and cookies
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());

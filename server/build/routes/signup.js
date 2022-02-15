@@ -67,7 +67,7 @@ function signup(rrn) {
             .then(() => {
             rrn.res.send("Succesfully registered");
         }).catch((e) => {
-            rrn.next(e);
+            rrn.next(new Error("User already exists"));
         });
     });
 }
