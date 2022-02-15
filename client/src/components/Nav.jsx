@@ -1,10 +1,13 @@
 import {useState} from "react";
+import {Link} from "react-router-dom";
 
-function Title (props) {
+function Title () {
 	//onClick: to change page property and show initial games when clicked
-	return (<h1 onClick={()=>props.setPage('/')} className="cursor-pointer text-center md:text-left text-4xl font-bold">
-		Games Catalogue
-	</h1>)
+	return (<Link to="/">
+		<h1 className="cursor-pointer text-center md:text-left text-4xl font-bold">
+			Games Catalogue
+		</h1>
+	</Link>)
 }
 
 function Search () {
@@ -19,28 +22,29 @@ function Menu (props) {
 	//To list menu options and their genre slug for API purposes
 	const options = [{
 		name: 'Fighting',
-		slug: '/fighting'
+		slug: 'fighting'
 	},{ 
 		name: 'Adventures',
-		slug: '/adventure'
+		slug: 'adventure'
 	},{ 
 		name: 'Shooter',
-		slug: '/shooter'
+		slug: 'shooter'
 	},{ 
 		name: 'RPG',
-		slug: '/role-playing-rpg'
+		slug: 'role-playing-rpg'
 	},{ 
 		name: 'Simulator',
-		slug: '/simulator'
+		slug: 'simulator'
 	}];
 
 	const items = options.map((option)=>{
 		return (<li className={genreClassValue} key={option.name}>
 			{/* onClick: To change page property to the clicked option slug */}
-			<button className="w-full transition ease-in-out py-2 px-4 hover:bg-gray-400 sm:w-auto" onClick={()=>{
-				props.setPage(option.slug); 
-				console.log(option.slug);
-			}}> {option.name} </button>
+			<Link to={'/genre/' + option.slug}>
+				<button className="w-full transition ease-in-out py-2 px-4 hover:bg-gray-400 sm:w-auto"> 
+					{option.name} 
+				</button>
+			</Link>
 		</li>)
 	})
 
@@ -57,9 +61,11 @@ export default function Nav (props) {
 	return (<nav>
 		{/* Upper part of the navbar */}
 		<div className="md:flex md:flex-row md:justify-between p-8">
-			<Title setPage={props.setPage}/>
+			<Link to="/">
+				<Title />
+			</Link>
 			<Search />
 		</div>
-		<Menu setPage={props.setPage} />		
+		<Menu />		
 	</nav>)
 }

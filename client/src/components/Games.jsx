@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import { useParams } from "react-router-dom"; 
 
 //Fallback for games section
 function loadingGames(){
@@ -29,32 +30,44 @@ function parseGames(gameData){
 }
 
 //To fetch games data from API
-function fetchGames(page, setGameData){
+async function fetchGames(genre, setGameData){
 	let url = 'http://localhost:3001/api/games/rated';
 
-	if (page !== '/'){
-		url = 'http://localhost:3001/api/games/genre' + page;
+	if (genre){
+		url = 'http://localhost:3001/api/games/genre/' + genre;
 	} else {
 		url = 'http://localhost:3001/api/games/rated';
 	}
 
-	fetch(url)
-	.then((res)=>res.json())
-	.then((data)=>{
+	let res;
+
+	try {
+		res = await fetch(url);
+	} catch (err) {
+		console.error('Failed to fetch api');
+		return;
+
+	}
+
+	if (res.ok) {
+		const data = await res.json();
 		setGameData(data);
-	});
+	} else {
+		const error = await res.text();
+		console.log(error);
+	}
 }
 
 export default function Games(props){
 	//To render whenever games data changes
 	const [gameData, setGameData] = useState(null);	
+	const {genre} = useParams();
 
 	//To fetch and change game data whenever page property changes
 	useEffect(()=>{
 		setGameData(null);
-		fetchGames(props.page, setGameData);
-		console.log("Loaded");
-	}, [props.page])
+		fetchGames(genre, setGameData);
+	}, [genre])
 
 	return (<main className="grid sm:grid-cols-2 lg:grid-cols-3 mt-8">
 		{/* To show the fallback when games data isn't ready */}
