@@ -61,9 +61,7 @@ export default function Nav (props) {
 	return (<nav>
 		{/* Upper part of the navbar */}
 		<div className="md:flex md:flex-row md:justify-between p-8">
-			<Link to="/">
-				<Title />
-			</Link>
+			<Title />
 			<Search />
 		</div>
 		<Menu />		
