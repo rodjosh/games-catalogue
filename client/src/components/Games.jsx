@@ -1,5 +1,7 @@
-import React, {useState, useEffect} from "react";
-import { useParams } from "react-router-dom"; 
+import {useState, useEffect, useContext} from "react";
+import {useParams} from "react-router-dom"; 
+
+import {userToken} from "../App.jsx";
 
 //Fallback for games section
 function loadingGames(){
@@ -29,45 +31,30 @@ function parseGames(gameData){
 	})
 }
 
-//To fetch games data from API
-async function fetchGames(genre, setGameData){
-	let url = 'http://localhost:3001/api/games/rated';
-
-	if (genre){
-		url = 'http://localhost:3001/api/games/genre/' + genre;
-	} else {
-		url = 'http://localhost:3001/api/games/rated';
-	}
-
-	let res;
-
-	try {
-		res = await fetch(url);
-	} catch (err) {
-		console.error('Failed to fetch api');
-		return;
-
-	}
-
-	if (res.ok) {
-		const data = await res.json();
-		setGameData(data);
-	} else {
-		const error = await res.text();
-		console.log(error);
-	}
-}
-
-export default function Games(props){
+export default function Games(){
 	//To render whenever games data changes
 	const [gameData, setGameData] = useState(null);	
 	const {genre} = useParams();
 
+	const user_token = useContext(userToken);
+
 	//To fetch and change game data whenever page property changes
 	useEffect(()=>{
 		setGameData(null);
-		fetchGames(genre, setGameData);
-	}, [genre])
+		
+		const url = genre ? 'http://localhost:3001/api/games/genre/' + genre :
+					'http://localhost:3001/api/games/rated';
+		
+		fetch(url, {
+			headers: {'Cookie': "user_token=" + user_token},
+			credentials: 'include'
+		}).then(res => {
+			if (res.ok) return res.json();
+			throw res.text();
+		}).then(data => {
+			setGameData(data);
+		}).catch(err => err.then(text => console.log(text)));
+	}, [genre, user_token])
 
 	return (<main className="grid sm:grid-cols-2 lg:grid-cols-3 mt-8">
 		{/* To show the fallback when games data isn't ready */}
