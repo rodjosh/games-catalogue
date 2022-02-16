@@ -1,69 +1,97 @@
-import {useState} from "react";
+import {useState, useMemo} from "react";
 import {Link} from "react-router-dom";
 
-function Title () {
-	//onClick: to change page property and show initial games when clicked
+function TextTitle({children}) {
+	return (<h1 className="cursor-pointer text-center md:text-left text-4xl font-bold">
+		{children}
+	</h1>)
+}
+
+function Title({children}) {
 	return (<Link to="/">
-		<h1 className="cursor-pointer text-center md:text-left text-4xl font-bold">
-			Games Catalogue
-		</h1>
+		<TextTitle>
+			{children}
+		</TextTitle>
 	</Link>)
 }
 
-function Search () {
-	return (<input className="hidden md:block border border-slate-400 rounded-md px-2 py-1" type="text" placeholder="Search here" />)
+function SearchBar() {
+	return (<input className="hidden md:block border border-slate-400 rounded-md px-2 py-1" 
+		type="text" placeholder="Search here" />);
 }
 
-function Menu (props) {
+function MenuButton({children}){
+	return (<div className="w-full transition ease-in-out py-2 px-4 hover:bg-gray-400 sm:w-auto"> 
+		{children}
+	</div>);
+}
+
+function MenuItem({children, ...props}){
+	return (<li {...props}>
+		{children}
+	</li>);
+}
+
+function DropdownButton({children, ...props}) {
+	return (<li className="block sm:hidden" {...props}>
+			<button className="w-full transition ease-in-out py-2 px-4 hover:bg-gray-400 sm:w-auto">
+				{children} 
+			</button>
+		</li>);
+}
+
+function Menu({options}) {
 	//To manage state of dropdown menu in mobile
-	const [[showGenres, nextClick], setShowGenres] = useState([false, true]);
-	const genreClassValue = showGenres ? 'block sm:inline-block' : 'hidden sm:inline-block';
+	const [showDropdown, switchMenu] = useState(false)
+	
+	const genreClass = useMemo(()=>{
+		return showDropdown ? 'block sm:inline-block' : 'hidden sm:inline-block';
+	}, [showDropdown]);
 
-	//To list menu options and their genre slug for API purposes
-	const options = [{
-		name: 'Fighting',
-		slug: 'fighting'
-	},{ 
-		name: 'Adventures',
-		slug: 'adventure'
-	},{ 
-		name: 'Shooter',
-		slug: 'shooter'
-	},{ 
-		name: 'RPG',
-		slug: 'role-playing-rpg'
-	},{ 
-		name: 'Simulator',
-		slug: 'simulator'
-	}];
+	const items = [];
 
-	const items = options.map((option)=>{
-		return (<li className={genreClassValue} key={option.name}>
-			{/* onClick: To change page property to the clicked option slug */}
-			<Link to={'/genre/' + option.slug}>
-				<button className="w-full transition ease-in-out py-2 px-4 hover:bg-gray-400 sm:w-auto"> 
-					{option.name} 
-				</button>
-			</Link>
-		</li>)
-	})
+	for (const genre in options){
+		const slug = options[genre];
+
+		const button = (<Link to={'/genre/' + slug}>
+			<MenuButton> {genre} </MenuButton>
+		</Link>);
+
+		items.push(<MenuItem className={genreClass} key={genre}>
+			{button}
+		</MenuItem>)
+	}
 
 	return (<ul className="flex flex-col sm:flex-row bg-gray-300">
-		{/* To show a dropdown menu when screen gets small */}
-		<li className="block sm:hidden" key="dropdown-menu" onClick={()=>setShowGenres([nextClick, showGenres])}>
-			<button className="w-full transition ease-in-out py-2 px-4 hover:bg-gray-400 sm:w-auto"> Show Genres </button>
-		</li>
+		<DropdownButton onClick={()=>switchMenu(!showDropdown)}>
+			Show Genres
+		</DropdownButton>
+
 		{items}
-	</ul>)
+	</ul>);
+}
+
+function UpperNav({children}){
+	return (<div className="md:flex md:flex-row md:justify-between p-8">
+		{children}
+	</div>)
+}
+
+const options = {
+	Fighting: 'fighting',
+	Adventures: 'adventure',
+	Shooter: 'shooter',
+	RPG: 'role-playing-rpg',
+	Simulator: 'simulator'
 }
 
 export default function Nav (props) {
 	return (<nav>
-		{/* Upper part of the navbar */}
-		<div className="md:flex md:flex-row md:justify-between p-8">
-			<Title />
-			<Search />
-		</div>
-		<Menu />		
+		<UpperNav>
+			<Title> Games Catalogue </Title>
+			<SearchBar/>
+		</UpperNav>
+
+		<Menu options={options}/>		
 	</nav>)
 }

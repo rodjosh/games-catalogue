@@ -8,6 +8,34 @@ function loadingGames(){
 	return (<h1>Loading Games</h1>);
 }
 
+function Game({children, ...props}){
+	return (<div 
+		className="py-8 px-12 text-gray-800 hover:bg-gray-300 cursor-pointer transition ease-in-out flex flex-col sm:p-2 xl:justify-center" 
+		{...props}>
+			{children}
+	</div>);
+}
+
+function GameTitle({children}){
+	return (<h1 className="font-semibold text-xl text-center px-12 py-2 sm:text-base xl:px-4">
+		{children}
+	</h1>)
+}
+
+function GameInfo({children}){
+	return (<div className="xl:flex xl:flex-row px-4 pb-2">{children}</div>);
+}
+
+function GameCover(props){
+	return (<img alt="Game Cover" className="my-2 w-full xl:mx-auto xl:w-auto xl:h-[200px]" {...props} />);
+}
+
+function GameSummary({children}){
+	return (<p className="text-justify text-lg pt-4 break-words sm:leading-5 sm:text-base xl:px-4 xl:py-2 xl:text-[14px]">
+		{children}
+	</p>);
+}
+
 //To convert json data to react components
 function parseGames(gameData){
 	return gameData.map(game => {
@@ -20,14 +48,13 @@ function parseGames(gameData){
 			game.summary = game.summary.join("") + "...";
 		}
 
-		return (<div className="py-8 px-12 text-gray-800 hover:bg-gray-300 cursor-pointer transition ease-in-out flex flex-col sm:p-2 xl:justify-center" key={game.name}>
-			<h1 className="font-semibold text-xl text-center px-12 py-2 sm:text-base xl:px-4">{game.name}</h1>
-
-			<div className="xl:flex xl:flex-row px-4 pb-2">
-				<img alt="Game Cover" className="my-2 w-full xl:mx-auto xl:w-auto xl:h-[200px]" src={game.cover} />
-				<p className="text-justify text-lg pt-4 break-words sm:leading-5 sm:text-base xl:px-4 xl:py-2 xl:text-[14px]">{game.summary}</p>
-			</div>
-		</div>)
+		return (<Game key={game.name}>
+			<GameTitle>{game.name}</GameTitle>
+			<GameInfo>
+				<GameCover src={game.cover} />
+				<GameSummary> {game.summary} </GameSummary> 
+			</GameInfo>
+		</Game>);
 	})
 }
 
@@ -41,7 +68,8 @@ export default function Games(){
 	//To fetch and change game data whenever page property changes
 	useEffect(()=>{
 		setGameData(null);
-		
+		console.log(user_token)		
+
 		const url = genre ? 'http://localhost:3001/api/games/genre/' + genre :
 					'http://localhost:3001/api/games/rated';
 		

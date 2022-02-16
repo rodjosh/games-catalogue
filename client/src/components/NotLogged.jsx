@@ -2,7 +2,7 @@ import {useCallback, useState} from "react";
 import {Routes, Route, Link, Navigate} from "react-router-dom";
 
 function Message({children}) {
-	return (<h1>
+	return (<h1 className="text-sm my-2">
 		{children}
 	</h1>)
 }
@@ -24,9 +24,9 @@ function SubmitButton({children, onClick}) {
 }
 
 function LinkText({children}) {
-	return (<button className="text-sm text-blue-700">
+	return (<div className="text-sm text-blue-700">
 		{children}
-	</button>)
+	</div>)
 }
 
 export default function NotLogged({ setUserToken }) {
@@ -38,7 +38,8 @@ export default function NotLogged({ setUserToken }) {
 			fetch("http://localhost:3001/api/" + endpoint, {
 				method: "POST",
 				body: JSON.stringify(userData),
-				headers: {'Content-Type': 'application/json'}
+				headers: {'Content-Type': 'application/json'},
+				credentials: 'include'
 			}).then(res => {
 				if (res.ok) return res.text().then(data => {
 					if (endpoint === "login") {	
