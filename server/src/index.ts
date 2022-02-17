@@ -2,8 +2,9 @@ import startDatabase from "./database";
 import express from "express";
 
 import cookieParser from "cookie-parser";
-import jwt from "./jwt"
 import cors from "cors";
+
+import jwt from "./jwt"
 
 const app = express();
 const database = startDatabase();
@@ -15,6 +16,7 @@ if (!database){
 
 import routes from "./routes";
 
+//Temporary fix
 app.use(cors({origin: true, credentials: true}))
 //app.use(cors());
 

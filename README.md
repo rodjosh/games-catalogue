@@ -21,23 +21,21 @@ Brief list explaining what steps are remaining from the process to finish the pr
 	- [ ] Delete Reviews
 	- [X] Games List by Rated
 	- [X] Games List by Genres
-	- [ ] Attach react and server ports to env variables
-	- [ ] Add sample env file to github
-	- [ ] Add example headers for API calls for JWT on github
-	- [ ] Add example requests to every endpoint in server's readme
+	- [ ] Migrate from express to next
+	- [ ] Add example of env file to github
+	- [ ] Add example API calls on github
 
 
 - Frontend
 
 	- [X] Start the prototype using Javascript
-	- [X] Navbar
+	- [X] Navbar & Footer
 	- [X] Games Section
-	- [X] Change games with tabs
-	- [X] Major Responsiveness
-	- [X] Create mobile-friendly dropdown menu
-	- [ ] Handle errors when API fails
-	- [ ] Login / Signup
+	- [X] Dynamic Games Section
+	- [X] Responsiveness
+	- [ ] Handle errors (In progress for better handling)
+	- [X] Login / Signup
 	- [ ] Game Details Page
 	- [ ] Reviews Mechanism
-	- [ ] Replace server url with env variable
+	- [X] Replace static urls
 	- [ ] Implement the app with Typescript

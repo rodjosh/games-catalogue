@@ -20,7 +20,6 @@ interface Game {
 
 //To storage previous API calls
 const games:any = {};
-
 const games_url = 'https://api.igdb.com/v4/games';
 
 //To send a structured version of games information
