@@ -21,6 +21,7 @@ Brief list explaining what steps are remaining from the process to finish the pr
 	- [ ] Delete Reviews
 	- [X] Games List by Rated
 	- [X] Games List by Genres
+	- [ ] Improve Games Fetch & Retrieving Mechanism
 	- [ ] Migrate from express to next
 	- [ ] Add example of env file to github
 	- [ ] Add example API calls on github
