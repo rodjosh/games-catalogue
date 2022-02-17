@@ -41,3 +41,4 @@ Brief list explaining what steps are remaining from the process to finish the pr
 	- [ ] Reviews Mechanism
 	- [X] Replace static urls
 	- [ ] Implement the app with Typescript
+	- [ ] Proxify API Calls (Check CRA page)
